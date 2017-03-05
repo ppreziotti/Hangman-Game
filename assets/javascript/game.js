@@ -9,10 +9,21 @@ console.log(randomWord[0]);
 console.log(randomWord[randomWord.length - 1])
 console.log(randomWord[6]);
 
+// Creates an empty array for storing the current word chosen for the game //
+var wordDisplay = [];
+
+// Loops through the current randomWord and shows each letter as an underscore in wordDisplay to hide it from the user //
+for (var i = 0; i < randomWord.length; i++) {
+	wordDisplay[i] = "_";
+	document.getElementById("current-word").innerHTML = "Current Word: " + wordDisplay;
+}
+
+console.log(wordDisplay);
+
+
+
 // Creates variables froms the divs that will display game information //
-var wordDiv = document.getElementById("word-display");
 var guessesRemaining = document.getElementById("guesses-remaining");
 var lettersGuessed = document.getElementById("letters-guessed");
 var guesses = 6;
 
-document.querySelector("#word-display").innerHTML = randomWord;
