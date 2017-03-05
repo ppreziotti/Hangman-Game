@@ -5,25 +5,34 @@ var words = ["guitar", "bass", "drums", "keyboard", "synthesizer", "saxophone", 
 var randomWord = words[Math.floor(Math.random() * words.length)];
 
 console.log(randomWord);
-console.log(randomWord[0]);
-console.log(randomWord[randomWord.length - 1])
-console.log(randomWord[6]);
 
-// Creates an empty array for storing the current word chosen for the game //
+// Creates an empty array to be used for storing the chosen word //
 var wordDisplay = [];
 
-// Loops through the current randomWord and shows each letter as an underscore in wordDisplay to hide it from the user //
+// Creates variables that will display game information (wins, guesses remaining, and letter guessed) //
+var wins = 0;
+var guessesRemaining = 6;
+var lettersGuessed = "";
+
+// Loops through the current randomWord and shows each letter as an underscore in the wordDisplay array //
 for (var i = 0; i < randomWord.length; i++) {
 	wordDisplay[i] = "_";
-	document.getElementById("current-word").innerHTML = "Current Word: " + wordDisplay;
 }
 
-console.log(wordDisplay);
+// Converts the wordDisplay array into a string and displays it on the webpage (all letters shown as underscores for now) //
+document.getElementById("word-space").innerHTML = wordDisplay.toString();
 
+// Creates a function to log the key the user presses, converts it to lowercase (if necessary) and turns it into the user's guess //
+document.onkeyup = function() {
+	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
+	console.log(userGuess);
 
+	if (randomWord.indexOf(userGuess) === -1) {
+		guessesRemaining--;
+		lettersGuessed = lettersGuessed + userGuess;
+	}
 
-// Creates variables froms the divs that will display game information //
-var guessesRemaining = document.getElementById("guesses-remaining");
-var lettersGuessed = document.getElementById("letters-guessed");
-var guesses = 6;
+	console.log(guessesRemaining);
+	console.log(lettersGuessed);
+}
 
