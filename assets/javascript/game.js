@@ -33,6 +33,12 @@ document.onkeyup = function() {
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 	console.log(userGuess);
 
+	// If the user's guessed letter is in the word, pushes it to the chosenWord array and displays it on the page
+	if (randomWord.indexOf(userGuess) !== -1) {
+		chosenWord[randomWord.indexOf(userGuess)] = userGuess;
+		document.getElementById("word-space").innerHTML = chosenWord.join(" ");
+	}
+
 	// If the user's guessed letter is not in the word and has not already been guessed:
 	// guessesRemaininng decreases by one and guessed letter is pushed to the lettersGuessed array
 	if (randomWord.indexOf(userGuess) === -1 && lettersGuessed.indexOf(userGuess) === -1) {
@@ -42,7 +48,7 @@ document.onkeyup = function() {
 		document.getElementById("letters-guessed").innerHTML = "Letters Guessed: " + lettersGuessed.toString();
 	}
 
-	console.log(guessesRemaining);
-	console.log(lettersGuessed);
+	//console.log(guessesRemaining);
+	//console.log(lettersGuessed);
 
 }
