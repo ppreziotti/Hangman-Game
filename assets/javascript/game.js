@@ -26,8 +26,9 @@ console.log(wordDisplay);
 
 // Displays wordDisplay in the html within the word-space id
 document.getElementById("word-space").innerHTML = wordDisplay;
+document.getElementById("guesses-remaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
 
-// Creates a function to log the key the user presses and converts it to lowercase (if necessary) 
+// Creates a function to log the key the user presses and then runs the game's logic
 document.onkeyup = function() {
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 	console.log(userGuess);
@@ -36,10 +37,12 @@ document.onkeyup = function() {
 	// guessesRemaininng decreases by one and guessed letter is pushed to the lettersGuessed array
 	if (randomWord.indexOf(userGuess) === -1 && lettersGuessed.indexOf(userGuess) === -1) {
 		guessesRemaining--;
+		document.getElementById("guesses-remaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
 		lettersGuessed.push(userGuess);
+		document.getElementById("letters-guessed").innerHTML = "Letters Guessed: " + lettersGuessed.toString();
 	}
-	
+
 	console.log(guessesRemaining);
 	console.log(lettersGuessed);
-}
 
+}
