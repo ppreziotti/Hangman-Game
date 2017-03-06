@@ -30,22 +30,28 @@ document.getElementById("guesses-remaining").innerHTML = "Guesses Remaining: " +
 
 // Creates a function to log the key the user presses and then runs the game's logic
 document.onkeyup = function() {
+
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 	console.log(userGuess);
 
-	// If the user's guessed letter is in the word, pushes it to the chosenWord array and displays it on the page
-	if (randomWord.indexOf(userGuess) !== -1) {
-		chosenWord[randomWord.indexOf(userGuess)] = userGuess;
-		document.getElementById("word-space").innerHTML = chosenWord.join(" ");
-	}
+	// Loops through the randomWord checking for the letter guessed by the user
+	for (var i = 0; i < randomWord.length; i++) {
+	
+		// If the user's guessed letter is in the word, it will replace the underscore in the chosenWord array and displayed on the page
+		if (randomWord[i] === userGuess) {
+			chosenWord[i] = randomWord[i];
+			document.getElementById("word-space").innerHTML = chosenWord.join(" ");
+		}
 
-	// If the user's guessed letter is not in the word and has not already been guessed:
-	// guessesRemaininng decreases by one and guessed letter is pushed to the lettersGuessed array
-	if (randomWord.indexOf(userGuess) === -1 && lettersGuessed.indexOf(userGuess) === -1) {
-		guessesRemaining--;
-		document.getElementById("guesses-remaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
-		lettersGuessed.push(userGuess);
-		document.getElementById("letters-guessed").innerHTML = "Letters Guessed: " + lettersGuessed.toString();
+		// If the user's guessed letter is not in the word and has not already been guessed:
+		// guessesRemaining decreases by one, the guessed letter is pushed to the lettersGuessed array, and then displayed
+		else if (randomWord.indexOf(userGuess) === -1 && lettersGuessed.indexOf(userGuess) === -1) {
+			guessesRemaining--;
+			document.getElementById("guesses-remaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
+			lettersGuessed.push(userGuess);
+			document.getElementById("letters-guessed").innerHTML = "Letters Guessed: " + lettersGuessed.toString();
+		}
+
 	}
 
 	//console.log(guessesRemaining);
