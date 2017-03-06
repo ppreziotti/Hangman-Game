@@ -1,37 +1,44 @@
-// Creates an array that will hold all of the words to be used in the game //
+// Creates an array that will hold all of the words to be used in the game 
 var words = ["guitar", "bass", "drums", "keyboard", "synthesizer", "saxophone", "organ", "fiddle", "dobro", "harpsichord"];
 
-// Picks a random value from the words array to be used as the word for the current round //
+// Picks a random value from the words array to be used as the word for the current round 
 var randomWord = words[Math.floor(Math.random() * words.length)];
 
 console.log(randomWord);
 
-// Creates an empty array to be used for storing the chosen word //
-var wordDisplay = [];
+// Creates an empty array to be used for storing the chosen word 
+var chosenWord = [];
 
-// Creates variables that will display game information (wins, guesses remaining, and letter guessed) //
+// Creates variables that will display game information 
+// lettersGuessed is an empty array that guessed letters will be pushed to
 var wins = 0;
 var guessesRemaining = 6;
-var lettersGuessed = "";
+var lettersGuessed = [];
 
-// Loops through the current randomWord and shows each letter as an underscore in the wordDisplay array //
+// Loops through the current randomWord and shows each letter as an underscore in the chosenWord array
 for (var i = 0; i < randomWord.length; i++) {
-	wordDisplay[i] = "_";
+	chosenWord[i] = "_";
 }
 
-// Converts the wordDisplay array into a string and displays it on the webpage (all letters shown as underscores for now) //
-document.getElementById("word-space").innerHTML = wordDisplay.toString();
+// Converts the chosenWord array to a string without commas
+var wordDisplay = chosenWord.join(" ");
+console.log(wordDisplay);
 
-// Creates a function to log the key the user presses, converts it to lowercase (if necessary) and turns it into the user's guess //
+// Displays wordDisplay in the html within the word-space id
+document.getElementById("word-space").innerHTML = wordDisplay;
+
+// Creates a function to log the key the user presses and converts it to lowercase (if necessary) 
 document.onkeyup = function() {
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 	console.log(userGuess);
 
-	if (randomWord.indexOf(userGuess) === -1) {
+	// If the user's guessed letter is not in the word and has not already been guessed:
+	// guessesRemaininng decreases by one and guessed letter is pushed to the lettersGuessed array
+	if (randomWord.indexOf(userGuess) === -1 && lettersGuessed.indexOf(userGuess) === -1) {
 		guessesRemaining--;
-		lettersGuessed = lettersGuessed + userGuess;
+		lettersGuessed.push(userGuess);
 	}
-
+	
 	console.log(guessesRemaining);
 	console.log(lettersGuessed);
 }
