@@ -1,5 +1,7 @@
 // Creates an array that will hold all of the words to be used in the game 
-var wordArray = ["guitar", "bass", "drums", "keyboard", "synthesizer", "saxophone", "organ", "fiddle", "dobro", "harpsichord"];
+var wordArray = ["guitar", "bass", "drums", "keyboard", "synthesizer", "saxophone", 
+	"organ", "fiddle", "dobro", "harpsichord", "mandolin", "banjo", "flute", 
+	"trombone", "trumpet", "piano", "cello", "harmonica", "tuba", "clarinet"];
 
 // Creates variables that will display game information 
 // lettersGuessed and chosenWord are empty arrays to which letters will be pushed
@@ -8,34 +10,30 @@ var guessesRemaining = 6;
 var lettersGuessed = [];
 var chosenWord = [];
 
-// Creates a function that picks a random word from wordsArray, puts guesses remaining back at 6 and clears letters guessed
+// Creates a function for picking and displaying the word in play
 function newWord() {
 	
 	// Picks a random value from wordArray to be used as the word for the current round 
 	randomWord = wordArray[Math.floor(Math.random() * wordArray.length)];
+	// Sets guesses back at 6 (for starting new round) and displays the value on the page
 	guessesRemaining = 6;
-	// Displays the amout of guesses remaining in the appropriate heading
 	document.getElementById("guesses-remaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
+	// Clears the letters guessed display on the page
 	lettersGuessed = [];
 	document.getElementById("letters-guessed").innerHTML = "Letters Guessed: ";
-
-}
-
-function displayWord() {
-
 	// Clears the chosenWord array
 	chosenWord = [];
-	// Loops through the current randomWord and stores each letter as an underscore in the chosenWord array
+	// Loops through the current word and stores each letter as an underscore in the chosenWord array
 	for (var i = 0; i < randomWord.length; i++) {
 		chosenWord[i] = "_";
 	}
 	// Converts the chosenWord array to a string without commas and displays it in the word-space heading
 	document.getElementById("word-space").innerHTML = chosenWord.join(" ");
-	
+
 }
 
+// Runs the newWord function
 newWord();
-displayWord();
 
 // Creates a function that logs the key the user presses and then runs the game's logic
 document.onkeyup = function() {
@@ -44,45 +42,43 @@ document.onkeyup = function() {
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 
 	// Loops through the randomWord checking for the letter guessed by the user
-	for (var i = 0; i <= randomWord.length; i++) {
+	for (var i = 0; i < randomWord.length; i++) {
 
 		// Only checks the word if the user input was a letter
 		if (/^[a-z ]+$/.test(userGuess)) {
 
-			// If the user's guessed letter is in the word, it will replace the underscore in the chosenWord array and be displayed on the page
+			// If the word contains the guessed letter, it will replace the underscore and appear on the page
 			if (randomWord[i] === userGuess) {
 				chosenWord[i] = randomWord[i];
 				document.getElementById("word-space").innerHTML = chosenWord.join(" ");
 			}
 
-			// If the user's guessed letter is not in the word and has not already been guessed:
-			// guessesRemaining decreases by one, the guessed letter is pushed to the lettersGuessed array, and then displayed
+			// If the word does not contain the letter guessed AND the letter has not already been guessed,
+			// Guesses Remaining decreases by one and the letter appears in the Letters Guessed area
 			if (randomWord.indexOf(userGuess) === -1 && lettersGuessed.indexOf(userGuess) === -1) {
 				guessesRemaining--;
 				document.getElementById("guesses-remaining").innerHTML = "Guesses Remaining: " + guessesRemaining;
 				lettersGuessed.push(userGuess);
 				document.getElementById("letters-guessed").innerHTML = "Letters Guessed: " + lettersGuessed.join(", ");	
 			}
-			
-			// If the user guesses the word correctly (no underscores are left), wins increases by 1, a win alert is shown,
-			// and the win count is displayed
-			if (chosenWord.indexOf("_") === -1) {
-				wins++;
-				alert("You guessed the word correctly! Press OK to star a new round.");
-				document.getElementById("win-count").innerHTML = "Wins: " + wins;
-				newWord();
-				displayWord();
-			}
-
-			// If the user runs out of guesses, the game ends and a new randomWord is generated
-			if (guessesRemaining === 0) {
-				alert("You ran out of guesses. The word was " + randomWord + ". Press OK to start a new round.");
-				newWord();
-				displayWord();
-			}
 
 		}
 
+	}
+
+	// If the user guesses the word correctly (no underscores are left),
+	// wins increases by 1, a win alert is shown,and the win count is displayed on the page
+	if (chosenWord.indexOf("_") === -1) {
+		wins++;
+		document.getElementById("win-count").innerHTML = "Wins: " + wins;
+		alert("You guessed " + randomWord + " correctly! Press OK to star a new round.");
+		newWord();
+	}
+
+	// If the user runs out of guesses, the round ends and a new word is chosen
+	if (guessesRemaining === 0) {
+		alert("You ran out of guesses. The word was " + randomWord + ". Press OK to start a new round.");
+		newWord();
 	}
 
 }
