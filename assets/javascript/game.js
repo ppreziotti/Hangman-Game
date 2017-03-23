@@ -32,6 +32,25 @@ function newWord() {
 
 }
 
+// If the user wins, win count increases by 1, a win alert is shown, the win count is displayed 
+// on the page, and a new game begins
+function winGame() {
+
+	wins++;
+	document.getElementById("win-count").innerHTML = "Wins: " + wins;
+	alert("You guessed the word correctly! Press OK to star a new round.");
+	newWord();
+
+}
+
+// If the user loses, a lose alert is shown and then a new game begins
+function loseGame() {
+
+	alert("You ran out of guesses. The word was " + randomWord + ". Press OK to start a new round.");
+	newWord();
+
+}
+
 // Runs the newWord function
 newWord();
 
@@ -66,19 +85,15 @@ document.onkeyup = function() {
 
 	}
 
-	// If the user guesses the word correctly (no underscores are left),
-	// wins increases by 1, a win alert is shown,and the win count is displayed on the page
+	// If the user guesses the word correctly (no underscores are left), the user wins and the 
+	// winGame function is called
 	if (chosenWord.indexOf("_") === -1) {
-		wins++;
-		document.getElementById("win-count").innerHTML = "Wins: " + wins;
-		alert("You guessed " + randomWord + " correctly! Press OK to star a new round.");
-		newWord();
+		setTimeout(winGame, 100);
 	}
 
-	// If the user runs out of guesses, the round ends and a new word is chosen
+	// If the user runs out of guesses, the user loses and the loseGame function is called
 	if (guessesRemaining === 0) {
-		alert("You ran out of guesses. The word was " + randomWord + ". Press OK to start a new round.");
-		newWord();
+		setTimeout(loseGame, 100);
 	}
 
 }
